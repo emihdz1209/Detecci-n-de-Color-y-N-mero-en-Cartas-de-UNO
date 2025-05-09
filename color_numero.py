@@ -1,3 +1,4 @@
+
 import cv2 as cv
 import numpy as np
 import easyocr
@@ -19,26 +20,34 @@ def mostrar_ventana_red(titulo, img, scale=0.25):
 
 # ------------- Detección de color UNO -------------
 def detect_uno_color(img_bgr, mostrar_pasos=True):
-    # Pasa a HSV y separa canales
+    # Pasa a HSV y separa canales sin aplanar
     hsv = cv.cvtColor(img_bgr, cv.COLOR_BGR2HSV)
     h = hsv[:, :, 0]
     s = hsv[:, :, 1]
     v = hsv[:, :, 2]
+
     # Filtra píxeles bien saturados y brillantes
     mask = (s > 100) & (v > 100)
-    mask_visual = mask.astype(np.uint8) * 255  # Convert mask to 8-bit for visualization
-    # Mostrar la imagen original, HSV y la máscara
+    mask_visual = mask.astype(np.uint8) * 255  # Para mostrar
+
+    # Aplicar máscara a h
+    h_masked = h[mask]
+
+    # Mostrar pasos si se solicita
     if mostrar_pasos:
-        mostrar_ventana_red("Original", img_bgr)
-        mostrar_ventana_red("HSV", hsv)
-        mostrar_ventana_red("Mascara", mask_visual) 
-    # Pausa para ver los pasos
+        mostrar_ventana_red("1 - Imagen original", img_bgr)
+        mostrar_ventana_red("2 - HSV completo", hsv)
+        mostrar_ventana_red("3 - Mascara S>100 y V>100", mask_visual)
+
+    # Histograma de tonos
+    hist = cv.calcHist([h_masked], [0], None, [180], [0, 180]).flatten()
+    dom = np.argmax(hist)
+
+    # Pausar si se muestran pasos
     if mostrar_pasos:
         cv.waitKey(0)
         cv.destroyAllWindows()
-    # Histograma de tonos
-    hist = cv.calcHist([h], [0], None, [180], [0, 180]).flatten()
-    dom = np.argmax(hist)
+
     # Mapea al color UNO
     if dom < 10 or dom >= 170:
         return 'red'
@@ -86,6 +95,4 @@ def read_uno_number(img_bgr, mostrar_pasos=True):
     reader = easyocr.Reader(['en'], gpu=True, verbose=False)
     textos = reader.readtext(final, detail=0)
     digitos = [t for t in textos if t.strip().isdigit()]
-    # Devuelve el dígito más grande (el central)
     return max(digitos, key=len) if digitos else None
-

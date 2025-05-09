@@ -41,7 +41,7 @@ for nombre in cartas:
     # Compara con la anterior
     if prev_color is not None and prev_num is not None:
         if color != prev_color and num != prev_num:
-            print("❌ Ni color ni numero coinciden con la anterior")
+            print("Ni color ni numero coinciden con la anterior")
             print(f"Antes: {prev_color} {prev_num} | Ahora: {color} {num}")
             fail = True
             break
@@ -50,11 +50,11 @@ for nombre in cartas:
 
 # Resultado final
 if fail:
-    show_image_rescale("Juego ilegal 😢", cv.imread("FAIL.jpg"))
+    show_image_rescale("Juego ilegal", cv.imread("FAIL.jpg"))
     cv.waitKey(0)
 else:
-    print("✅ Todas encajan. Bien jugado!")
-    show_image_rescale("Juego valido 🎉", cv.imread("SUCCESS.jpg"))
+    print("Todas encajan. Bien jugado!")
+    show_image_rescale("Juego valido", cv.imread("SUCCESS.jpg"))
     cv.waitKey(0)
 
 cv.destroyAllWindows()
