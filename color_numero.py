@@ -18,15 +18,24 @@ def mostrar_ventana_red(titulo, img, scale=0.25):
     cv.imshow(titulo, img_peq)
 
 # ------------- Detección de color UNO -------------
-def detect_uno_color(img_bgr):
+def detect_uno_color(img_bgr, mostrar_pasos=True):
     # Pasa a HSV y separa canales
     hsv = cv.cvtColor(img_bgr, cv.COLOR_BGR2HSV)
-    h = hsv[:, :, 0].flatten()
-    s = hsv[:, :, 1].flatten()
-    v = hsv[:, :, 2].flatten()
+    h = hsv[:, :, 0]
+    s = hsv[:, :, 1]
+    v = hsv[:, :, 2]
     # Filtra píxeles bien saturados y brillantes
     mask = (s > 100) & (v > 100)
-    h = h[mask]
+    mask_visual = mask.astype(np.uint8) * 255  # Convert mask to 8-bit for visualization
+    # Mostrar la imagen original, HSV y la máscara
+    if mostrar_pasos:
+        mostrar_ventana_red("Original", img_bgr)
+        mostrar_ventana_red("HSV", hsv)
+        mostrar_ventana_red("Mascara", mask_visual) 
+    # Pausa para ver los pasos
+    if mostrar_pasos:
+        cv.waitKey(0)
+        cv.destroyAllWindows()
     # Histograma de tonos
     hist = cv.calcHist([h], [0], None, [180], [0, 180]).flatten()
     dom = np.argmax(hist)
@@ -79,3 +88,4 @@ def read_uno_number(img_bgr, mostrar_pasos=True):
     digitos = [t for t in textos if t.strip().isdigit()]
     # Devuelve el dígito más grande (el central)
     return max(digitos, key=len) if digitos else None
+

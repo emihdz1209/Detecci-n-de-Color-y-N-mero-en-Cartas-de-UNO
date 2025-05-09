@@ -28,8 +28,8 @@ for nombre in cartas:
         continue
 
     # Detecta color y número\d
-    color = color_numero.detect_uno_color(img)
-    num = color_numero.read_uno_number(img, False)
+    color = color_numero.detect_uno_color(img, False) #Cambiar a True para ver pasos
+    num = color_numero.read_uno_number(img, False) #Cambiar a True para ver pasos
 
     # Muestra la carta
     show_image_rescale(f"{color} {num}", img)
