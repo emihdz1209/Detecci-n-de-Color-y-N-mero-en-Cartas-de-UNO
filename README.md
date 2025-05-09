@@ -1,4 +1,3 @@
-
 # Detección de Color y Número en Cartas de UNO
 
 Este proyecto en Python utiliza procesamiento de imágenes (OpenCV) y reconocimiento óptico de caracteres (EasyOCR) para identificar el **color predominante** y el **número central** en cartas del juego UNO a partir de imágenes.
@@ -6,6 +5,7 @@ Este proyecto en Python utiliza procesamiento de imágenes (OpenCV) y reconocimi
 ## Funcionalidad
 
 El script:
+
 1. Procesa una carpeta de imágenes `Cartas_en_orden` (formato `Card_*.jpg`).
 2. Extrae el color dominante de cada carta usando el espacio de color HSV.
 3. Detecta el número central mediante un pipeline de procesamiento de imagen y OCR.
@@ -36,9 +36,8 @@ pip install opencv-python easyocr numpy
 
 ## Uso
 
-1. Coloca tus imágenes en la carpeta `Cartas_en_orden/`.
-2. Asegúrate de tener los archivos `SUCCESS.jpg` y `FAIL.jpg` en el directorio principal.
-3. Ejecuta el script principal:
+1. Coloca tus imágenes en la carpeta `Cartas_en_orden/`, titulando cada una como "Card_Num.jpg"
+2. Ejecuta el script principal:
 
 ```bash
 python UNO.py
@@ -53,7 +52,3 @@ Color: red | Número: 5
 Color: red | Número: 7
 ✅ Todas encajan. ¡Bien jugado!
 ```
-
-## Autor
-
-Desarrollado por [Tu Nombre].
