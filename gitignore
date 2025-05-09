@@ -1,0 +1,5 @@
+Cartas_en_orden/*.jpg
+__pycache__/
+*.pyc
+.DS_Store
+
